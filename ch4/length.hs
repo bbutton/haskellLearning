@@ -46,5 +46,29 @@ or' :: [Bool] -> Bool
 or' [] = False
 or' (x:xs) = x || (or' xs)
 
+all' :: (a -> Bool) -> [a] -> Bool
+all' f [] = True
+all' f (x:xs) = (f x) && (all' f xs)
+
+any' :: (a -> Bool) -> [a] -> Bool
+any' f [] = False
+any' f (x:xs) = (f x) || (any' f xs)
+
+take' :: Int -> [a] -> [a]
+take' _ [] = []
+take' 0 xs = []
+take' n (x:xs) = x:take' (n-1) xs
+
+drop' :: Int -> [a] -> [a]
+drop' _ [] = []
+drop' 0 xs = xs
+drop' n (_:xs) = drop' (n-1) xs
+
+splitAt' :: Int -> [a] -> ([a], [a])
+splitAt' _ [] = ([], [])
+splitAt' n xs = (take' n xs, drop' n xs)
+
+
+
 
 
