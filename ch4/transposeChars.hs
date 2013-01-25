@@ -8,10 +8,13 @@
 
 --    unlines( transpose2 (words wordList))
 
-transpose' :: String -> String -> [String]
-transpose' [] _ = []
-transpose' _ [] = []
-transpose' (x:xs) (y:ys) = [x,y]:transpose' xs ys
+prepare :: [a] -> (a, a, [a])
+prepare (first:second:rest) = (first, second, rest)
+
+transpose1 :: String -> String -> [String]
+transpose1 [] _ = []
+transpose1 _ [] = []
+transpose1 (x:xs) (y:ys) = [x,y]:transpose1 xs ys
 
 transpose2 :: [String] -> String -> [String]
 transpose2 [] _ = []
