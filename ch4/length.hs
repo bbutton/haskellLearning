@@ -68,7 +68,71 @@ splitAt' :: Int -> [a] -> ([a], [a])
 splitAt' _ [] = ([], [])
 splitAt' n xs = (take' n xs, drop' n xs)
 
+takeWhile' :: (a -> Bool) -> [a] -> [a]
+takeWhile' f [] = []
+takeWhile' f (x:xs)
+    | f x == False = []
+    | otherwise = x:takeWhile' f xs
+
+dropWhile' :: (a->Bool) -> [a] -> [a]
+dropWhile' f [] = []
+dropWhile' f xs
+    | f (head xs) == True = dropWhile' f (tail xs)
+    | otherwise = xs
+
+span' :: (a -> Bool) -> [a] -> ([a], [a])
+span' f [] = ([],[])
+span' f xs = ((takeWhile' f xs), (dropWhile' f xs))
+
+break' :: (a -> Bool) -> [a] -> ([a], [a])
+break' f [] = ([], [])
+break' f xs = ((dropWhile' f xs), (takeWhile' f xs))
+
+elem' :: (Eq a) => a -> [a] -> Bool
+elem' a [] = False
+elem' a xs
+      | null xs = False
+      | (head xs) == a = True
+      | otherwise = elem' a (tail xs)
+
+notElem' :: (Eq a) => a -> [a] -> Bool
+notElem' a [] = True
+notElem' a xs
+         | null xs = True
+         | (head xs) == a = False
+         | otherwise = notElem' a (tail xs)
+
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' f [] = []
+filter' f (x:xs)
+            | f x = x:filter' f xs
+            | otherwise = filter' f xs
+
+isPrefixOf' :: (Eq a) => [a] -> [a] -> Bool
+isPrefixOf' [] _ = True
+isPrefixOf' _ [] = False
+isPrefixOf' ps xs = ps == ((take (length ps)) xs)
 
 
+isInfixOf' :: (Eq a) => [a] -> [a] -> Bool
+isInfixOf' [] _ = True
+isInfixOf' _ [] = False
+isInfixOf' ps xs
+           | ps == ((take (length ps)) xs) = True
+           | otherwise = isInfixOf' ps (tail xs)
 
+isSuffixOf' :: (Eq a) => [a] -> [a]-> Bool
+isSuffixOf' [] _ = True
+isSuffixOf' _ [] = False
+isSuffixOf' ss xs = ss == (drop startingChars xs)
+                    where startingChars = (length xs) - (length ss)
 
+zip' :: [a] -> [b] -> [(a,b)]
+zip' [] _ = []
+zip' _ [] = []
+zip' (x:xs) (y:ys) = (x,y):zip' xs ys
+
+zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith' f [] _ = []
+zipWith' f _ [] = []
+zipWith' f (x:xs) (y:ys) = (f x y): zipWith' f xs ys

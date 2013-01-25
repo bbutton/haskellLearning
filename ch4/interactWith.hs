@@ -15,4 +15,19 @@ main = mainWith myFunction
             _ -> putStrLn "error: exactly two arguments needed"
 
         -- replace "id" with the name of our function below
-        myFunction = id
+        myFunction = process
+
+process :: String -> String
+process [] = []
+process xs = getAllFirstWords (lines xs)
+
+getAllFirstWords :: [String] -> String
+getAllFirstWords [] = []
+getAllFirstWords (x:xs) = (getFirstWord x) ++ "\n" ++ (getAllFirstWords xs)
+
+getFirstWord :: String -> String
+getFirstWord [] = []
+getFirstWord  xs = fst (span isNotSpace xs)
+
+isNotSpace :: Char -> Bool
+isNotSpace x = x /= ' '
